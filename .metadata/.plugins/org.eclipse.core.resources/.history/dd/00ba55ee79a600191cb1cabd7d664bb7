@@ -1,0 +1,24 @@
+package br.com.devmedia.blog.entity;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
+
+import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@MappedSuperclass
+@EntityListeners({AuditingEntityListener.class})
+public class AbstractAuditoria<PK extends Serializable> extends AbstractPersistable<PK> {
+
+	private String createdBy;
+	
+	private LocalDateTime createdDate;
+	
+	private String lastModifeidBy;
+	
+	private LocalDateTime lastModifeidDate;
+	
+}

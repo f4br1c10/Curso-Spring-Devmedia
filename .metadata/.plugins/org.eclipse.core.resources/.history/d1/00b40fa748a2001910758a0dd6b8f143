@@ -1,0 +1,11 @@
+package br.com.devmedia.blog.entity;
+
+public class UsuarioLogado {
+	
+	private Usuario usuario;
+
+	public UsuarioLogado(Usuario usuario) {
+		super();
+		this.usuario = usuario;
+	}
+}

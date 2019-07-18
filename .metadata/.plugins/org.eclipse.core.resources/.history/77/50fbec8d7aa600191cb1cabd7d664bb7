@@ -1,0 +1,5 @@
+package br.com.devmedia.blog.config;
+
+public class SpringSecurityAuditor {
+
+}

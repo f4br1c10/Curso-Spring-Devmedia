@@ -1,0 +1,21 @@
+package br.com.devmedia.blog.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import br.com.devmedia.blog.entity.Usuario;
+
+public class UsuarioLogadoDetailService implements UserDetailsService {
+	
+	@Autowired
+	private UsuarioService usuarioService;
+
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+		Usuario usuario;
+	
+	}
+
+}

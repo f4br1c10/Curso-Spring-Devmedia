@@ -1,0 +1,8 @@
+INDEX VERSION 1.4+/home/fabricio/Área de Trabalho/8.2 - Projeto Final/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+2482790340.index
+524444041.index
+528726891.index
+1692582295.index
+4113657515.index
+3960427052.index
+2805901396.index

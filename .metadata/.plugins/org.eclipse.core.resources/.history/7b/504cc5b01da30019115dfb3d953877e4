@@ -1,0 +1,160 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Postagens</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<style type="text/css">
+		.dropdown:hover>.dropdown-menu {
+			display: block;
+		}
+		
+		.table {
+			width: 900px;
+			text-align: center;
+		}
+		
+		fieldset {
+			width: 900px;
+			margin: 0 auto;
+		}
+		
+		fieldset.group .campo {
+			float: left;
+			margin-right: 2em;
+		}
+		
+		.master {
+			width: 960px;
+			margin: 0 auto;
+		}
+		
+		.header {
+			text-align: center;
+			font: monospace;
+			font-size: 1.7em;
+		}
+		</style>
+
+</head>
+<body>
+	<fieldset class="header">
+		<b>Blog do Curso de Spring-Data JPA | DevMedia</b>
+	</fieldset>
+	<c:import url="../menu.jsp"></c:import>
+	<br>
+	<fieldset>
+		<legend><b>Lista de Postagens</b></legend>
+		<div>
+			<input id="search" type="search" placeholder="Busca por titulo" value=""/>
+		</div><br>
+		<table id="table-ajax" class="table table-striped table-sm" title="${autorId != null ? autorId : 0}">
+			
+			<jsp:include page="table-rows.jsp"/>
+			
+		</table>
+		
+		<div id="info"></div>
+
+	</fieldset>
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function () {
+		
+		$( "#save-ajax" ).submit(function( event ) {
+			  
+			  event.preventDefault();
+			  
+			  $.post( '/blog/postagem/ajax/save', $(this).serialize() )
+			  	.done(function(postagem) {
+			  		$('#info').empty().append(
+			  				"<p>Postagem salva com sucesso!</p>" +
+			  				"<p>Abrir postagem: <a href='/blog/" + 
+			  				postagem.permalink + "'>" + 	postagem.titulo + "</a></p>"
+			  		);
+			  		
+			  		$('#save-ajax').each(function() {
+			  			this.reset();
+			  		});
+			  	})
+			  	.fail(function( error ) {
+			  		$('#info').empty().append("<p>Error: status " + 
+			  				error.status + ", " + error.statusText + "</p>")
+			  	});
+		});
+		
+		
+		$(document).on('click', 'button[id*="button_"]', function(a) {
+			var pageNumber = $(this).val();
+
+			tbody(pageNumber);		
+		});
+		
+		$('#search').keyup(function () {
+
+			var value = $(this).val();
+
+			var exp = new RegExp('^[a-zA-Z0-9]');
+			
+			if (exp.test(value)) {
+				search(value);	
+			} else {
+				tbody(1);
+			}
+			
+		}); 
+	});
+
+	function search(value) {
+		
+		var url = "/blog/postagem/ajax/titulo/" + value + "/page/1";
+		
+		$('#table-ajax').load( url, function( response, status, xhr) {
+			if ( status == "error" ) {
+				var msg = "Sorry but there was an error: ";
+			    $( "#info" ).html( msg + xhr.status + " " + xhr.statusText );
+			}
+		}); 
+	}
+
+	function tbody(page) {
+		
+		var url = "";
+		
+		var titulo = $('#search').val();
+		
+		var autoId = $('#table-ajax').attr('title');
+		
+		if (titulo.length > 0) {
+			url = "/blog/postagem/ajax/titulo/" + titulo + "/page/" + page;
+		} else {
+			url = "/blog/postagem/ajax/page/" + page;
+		}
+		
+		$( "#table-ajax" ).load( url, function( response, status, xhr ) {
+			
+			  if ( status == "error" ) {
+			    var msg = "Sorry but there was an error: ";
+			    $( "#info" ).html( msg + xhr.status + " " + xhr.statusText );
+			  }
+			  
+			 /* if ( status = "success" ) {
+				  $('button').each(function() {
+					 
+					  var id = '#' + $(this).attr('id');
+					  
+					  if ( $(id).attr('disabled') == 'disabled' ) {
+						  $(id).removeAttr('disabled');
+					  }
+					  
+				  });
+				  
+				  $('#button_' + page).attr('disabled', 'disabled');
+			  }*/
+		});
+	}
+	</script>
+</body>
+</html>

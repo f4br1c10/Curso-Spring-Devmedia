@@ -1,0 +1,5 @@
+package br.com.devmedia.blog.service;
+
+public class UsuarioLogadoDetailService {
+
+}

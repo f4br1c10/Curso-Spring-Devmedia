@@ -1,0 +1,60 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<fieldset style="font-size: 10pt">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="<c:url value = "/"/> ">Home</a>
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
+						Usuário
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<a class="dropdown-item" href="<c:url value = "/usuario/add"/>">Add usuário</a>
+		          		<a class="dropdown-item" href="<c:url value = "/usuario/list"/>">List usuários</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
+						Autor
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<a class="dropdown-item" href="<c:url value = "/autor/add"/>">Add autor</a>
+		          		<a class="dropdown-item" href="<c:url value = "/autor/list"/>">List autores</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
+						Postagem
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<a class="dropdown-item" href="<c:url value = "/postagem/add"/>">Add postagem</a>
+						<a class="dropdown-item" href="<c:url value = "/postagem/ajax/add"/>">Add postagem Ajax</a>
+		          		<a class="dropdown-item" href="<c:url value = "/postagem/list"/>">List postagens</a>
+					</div>
+				</li>
+				<li class="nav-item">
+			    	<a class="nav-link" href="<c:url value = "/categoria/add"/>">Categorias</a>
+			    </li>
+			    <li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
+						Minha Conta
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					${logado}
+			    	<c:if test="${logado == null}">
+						<a class="dropdown-item" href="<c:url value = "/auth/form"/>">Entrar</a>
+						<a class="dropdown-item" href="#"/>Cadastrar-se</a>
+					</c:if>
+						<security:authorize access="hasAnyAuthority('ADMIN','AUTOR','LEITOR')">
+							<form action="<c:url value="/logout"/>" method="post">
+							    <security:csrfInput/>
+								<button type="submit" class="btn btn-danger btn-block">Sair</button>
+							</form>
+						</security:authorize>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+</fieldset>
